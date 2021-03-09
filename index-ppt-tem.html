@@ -201,6 +201,18 @@
         width: 100%;
         height: 100%;
     }
+	.left{
+        width: 300px;
+        height: 500px;
+        background: #6E6C8A;
+        float: left;/*设为左浮动*/
+        text-align: left;
+    }
+    input[type="radio"] {
+        margin-top: -1px;
+        margin-left: 10px;
+        vertical-align: middle;
+    }
 </style>
 
 <body onload="onBodyLoad()">
@@ -224,6 +236,11 @@
         </nav>
     </header>
     <article class="warp">
+        <section class="left">
+            <form name="radioForm" id="selectProject">
+                <p>プロジェクト選択:</p>
+            </form> 
+        </section>
 
         <section class="ß" style="text-align:center;border:none;margin:auto; margin-top:0px;position: relative;width: 900px;">
             <textarea id="textAreaMemo" class="textArea-promptmemo" placeholder="メモ、キュー出し、リマインダーをここに書く..." rows="3"></textarea>
@@ -238,7 +255,7 @@
                         <div id="page1">
                             <div class="one-page-title-top" id="Department__c">
                             </div>
-                            <div class="page-text">Finplexコンセプトおよび活動紹介</div>
+                            <div class="one-page-name" id="projectName"></div>
                             <div class="one-page-name" id="Name" ></div>
                             <!--div class="one-page-sexStr" id="sexStr" style="color:snow"></div-->
                             <div class="one-page-row">Finplexのコンセプト</div>
@@ -361,26 +378,67 @@
                     "Authorization": localStorage.getItem("token_type") + " " + localStorage.getItem("access_token")
                 },
                 success: function (data) {
-                    // $("#ppt_swiper").hide();
-                    // $("#pptBtn").hide();
-                    // $("#get-saleforceinfo").hide();
-                    // $("#templete_swiper").show();
-                    // $("#temBtn").show();
-                    // $("#get-ppt").show()
-		        	// $("#audio-input-container").hide();
-		        
-				    if(data.length > 0){
-						$(".one-page-title-top").each(function(e){
-							$(this).text(data[0].Department__c);
-						});
-						$("#Name").text(data[0].Name)
-						//$("#sexStr").text(data[0].Position__c + "  " + data[0].Sex__c)
+					$.each(data,(index,value) => {
+                        if(index == 1){
+                            createRadio("selectProject","radio","project",index,data[index].PreziProject__r.ProjectName__c,"checked");
+                        }else{
+                            createRadio("selectProject","radio","project",index,data[index].PreziProject__r.ProjectName__c,"");
+                        }                        
+                    });
+                    var rad = document.radioForm.project;
+                    var prev = null;
+                    var department = null;
+                    var userNm = null;
+                    for(var i = 0; i < rad.length; i++) {
+                        rad[i].addEventListener('change', function() {
+                            if(this !== prev) {
+                                prev = this;
+                            }
+                            //alert(data[this.id].PreziProject__r.ProjectName__c);   
+                            department = data[this.id].PreziUser__r.Department__c;
+                            userNm = data[this.id].PreziUser__r.Name;
+                            projectNm = data[this.id].PreziProject__r.ProjectName__c;
+                            $(".one-page-title-top").each(function(e){
+                                $(this).text(department);
+                            });
+                            $("#Name").text(userNm);
+                            $("#projectName").text(projectNm);                
+                        });
                     }
                 }
 
             });
         }
-        
+		function createRadio(parentId,eleType,eleName,eleId,eleValue,elechecked){  
+            var board = document.getElementById(parentId);  
+            var e = createElement("input",eleName);  
+            e.type = eleType;  
+            e.id = eleId;  
+            e.value = eleValue;  
+            //e.onclick = handleClick(this); 
+            board.appendChild(e);  
+            //添加文字  
+            board.appendChild(document.createTextNode(eleValue));  
+            //设置选中  
+            if(elechecked == "checked"){
+                e.setAttribute("checked",elechecked);  
+            }  
+        }  
+
+        function createElement(type, name) {     
+		   var element = null;     
+		   try {     
+			  // First try the IE way; if this fails then use the standard way    
+			  element = document.createElement_x('<'+type+' name="'+name+'">');     
+		   } catch (e) {     
+			  // Probably failed because we’re not running on IE  
+		   }     
+		   if (!element) {     
+			  element = document.createElement(type);     
+			  element.name = name;    
+		   }     
+		   return element;     
+        }
         /**
          * 轮播PPT区域点击时候放大缩小效果
          **/
