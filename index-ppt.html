@@ -219,6 +219,12 @@
 
         <section class="ß" style="text-align:center;border:none;margin:auto; margin-top:0px;position: relative;width: 900px;">
             <textarea id="textAreaMemo" class="textArea-promptmemo" placeholder="メモ、キュー出し、リマインダーをここに書く..." rows="3"></textarea>
+			<button id="save-memos" type="button" >
+				保存
+			</button>
+			<button id="delete-memos" type="button" >
+				削除
+			</button>
 		</section>
         <section class="experiment">
             <div id="videos-container" >
@@ -332,10 +338,12 @@
 			//video.videoWidth = videoWidth;
 			//video.videoHeight = videoHeight;
 			
-			//音声入力のイベントの設定
             commonTools = new CommonTools(textAreaMemo, video, mySwiper, audioResult);
 			commonTools.setControls([startBtn, stopBtn, playBtn, spanVideoTime, swipeInitialIndex]);
-		
+		    commonTools.setMemoButtons([document.getElementById("save-memos"),
+			    document.getElementById("delete-memos"),
+				'ppt-'
+			]);
 		    var obj1 = $("#swiperAnime");
 			obj1.css("background-color", "#12FF4460");
 			obj1.hide();

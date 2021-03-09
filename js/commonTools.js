@@ -368,6 +368,42 @@ class CommonTools{
 		this.isRecord = false;
 		$("#pptBtn").hide();
 	}
+	setMemoButtons(buttons){		
+		var key = buttons[2] + 'localMemos';
+		
+		var saveMemos = buttons[0];
+		var deleteMemos = buttons[1];
+		//保存
+		saveMemos.onclick = (e) => {
+			localStorage.setItem(key, JSON.stringify(this.localMemos));
+		};
+		//削除
+		deleteMemos.onclick = (e) => {
+			localStorage.removeItem(key);
+			this.updateMemo(key);
+		};
+		
+		this.updateMemo(key);
+	}
+	updateMemo(key){
+		var isFound = false;
+		var txt = '';
+		var index = this.mySwiper.activeIndex;
+		this.localMemos = JSON.parse(localStorage.getItem(key));
+		if(this.localMemos && this.localMemos.length > 0){
+		    this.localMemos.forEach((item, idx)=>{
+				if(!isFound && item.index == index){
+					txt = item.content;
+					isFound = true;
+				}
+			});
+		}
+		else{
+			this.localMemos = [];
+		}
+		
+        this.textAreaObject.val(txt);
+	}
 }
 
 /**
