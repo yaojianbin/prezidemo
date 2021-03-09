@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.80.0">
+    <title>ビデオ会議</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/album/">
+
+    
+
+    <!-- Bootstrap core CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+	  .center{
+		 margin:auto;
+		 position:absolute;
+		 top:50%;
+		 left:50%;
+		transform:translate(-50%,-50%);
+	  }
+    </style>
+    <script>
+    function loadFinished(){
+        var url = decodeURI(window.location.href.split("?")[1]);
+        if(url !=""){
+          userName = url.split("userName=")[1].split("&")[0];
+          userId = url.split("userId=")[1].split("&")[0];
+          document.getElementById("userName").innerText=userName;
+          document.getElementById("userId").innerText=userId;
+        }
+    }
+    window.onload = loadFinished;
+    </script>
+  </head>
+  <body>
+    
+<header>
+      <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Prezi検証</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navigation">
+              <span class="navbar-text navbar-right" id="userName"></span>
+              <span class="navbar-text navbar-right" id="userId"></span>
+            </div>
+          </div>
+        </nav>
+</header>
+
+<main>
+
+  <section class="py-5 text-center container center">
+    <div class="row py-lg-5">
+      <input id="google meet code" type="text" placeholder="会議コードまたリンク" value="ybw-shgy-jgu"></input>
+	  <a id="google meet" class="btn btn-primary my-2" style="width:120px;height:50px;line-height:40px">Google Meet</a>
+      <br><br><br>
+          
+	  <input id="zoom meet code" type="text" placeholder="会議コードまたリンク" value="6779631034"></input>
+	  <a id="zoom" class="btn btn-primary my-2" style="width:120px;height:50px;line-height:40px">Zoom</a>
+      <br><br><br>
+
+	  <input id="teams meet code" type="text" placeholder="会議コードまたリンク"></input>
+	  <a id="teams" class="btn btn-primary my-2" href="https://teams.microsoft.com/l/meetup-join" style="width:120px;height:50px;line-height:40px">Teams</a>
+
+    </div>
+  </section>
+</main>
+
+    <script type="text/javascript">
+
+        //Google Meetへジャンプ
+        document.getElementById("google meet").onclick = function () {
+		    var code = document.getElementById("google meet code");
+			var meetCode = code.value; //"https://meet.google.com/ybw-shgy-jgu"の最後の部分は会議コードです
+			var pos = meetCode.lastIndexOf("/");
+			if( pos >= 0)
+			{
+			    meetCode = meetCode.substr(pos + 1);
+			}
+			var strLink = "https://meet.google.com/" + meetCode + "?authuser=0";
+			console.log("the google meet's link is:" + strLink);
+            document.getElementById("google meet").href = strLink;
+        };
+
+        //Zoomへジャンプ
+        document.getElementById("zoom").onclick = function () {
+		    var code = document.getElementById("zoom meet code");
+			var strLink = code.value;
+			var pos = strLink.lastIndexOf("http");
+			if( pos < 0)
+			{
+			    strLink = "https://zoom.us/wc/join/" + strLink; //6779631034
+			}
+			console.log("zoom's link is:" + strLink);
+            document.getElementById("zoom").href = strLink;
+        };
+		
+    </script>
+      
+  </body>
+</html>

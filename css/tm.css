@@ -1,0 +1,64 @@
+h1 {
+    font-size: 32px;
+    margin: 0px;
+    padding: 4px;
+    color: #222288;
+}
+hr {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+.div-warp{
+    height: 25rem;
+    width: 60%;
+    background: #8080803d;
+    border-radius: 10px;
+    margin: 0 auto;
+    padding-top: 5rem;
+}
+
+th.login_field {
+    font-size: 14px;
+    text-align: right;
+    padding: 15px;
+    color: #252222;
+}
+td.login_field {
+    text-align: right;
+}
+td.login_button {
+    text-align: center;
+    padding: 20px;
+}
+table.toolbar {
+    margin-top: 16px;
+    margin-bottom: 32px;
+}
+table.list th {
+    width: 150px;
+    text-align: left;
+    padding: 8px;
+    color: #ffffff;
+    background-color: #5555aa;
+}
+table.list td {
+    padding: 8px;
+}
+th.add_field {
+    width: 150px;
+    text-align: left;
+    padding: 8px;
+    color: #ffffff;
+}
+td.add_field {
+    padding: 8px;
+}
+td.add_button {
+    text-align: center;
+    padding: 8px;
+}
+input{
+    height: 30px;
+    border-radius: 5px;
+    border: none;
+}

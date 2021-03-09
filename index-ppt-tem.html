@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>video recoder</title>
+    <script src="js/CommonTools.js"></script>
+    <script src="js/fileSaver.js"></script>
+    <script src="js/audioInputScript.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<script>
+	</script>
+</head>
+<style>
+    body {
+        background-color: #EFEDEF;
+    }
+
+    .warp {
+        border: 1px solid white;
+        width: 100%;
+        height: fit-content;
+        margin: 1rem auto;
+        padding-bottom: 2rem;
+    }
+
+    .experiment {
+        width: 720px;
+        margin: 2px auto 0;
+        position: relative;
+        background: black;
+        min-height: 400px;
+
+    }
+
+    .swiper-container-ppt {
+        width: 720px;
+        height: 400px;
+        position: absolute;
+        top: 1.5rem;
+        left: 0rem;
+        background-color: #75637500;
+    }
+    .swiper-container-tem {
+        width: 720px;
+        height: 400px;
+        position: absolute;
+        top: 1.5rem;
+        left: 0rem;
+        background-color: #75637500;
+
+
+    }
+    #videos-container {
+       
+        background: black;
+    }
+
+    .swiper-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .swiper-slide img {
+        width: 100%;
+        height: auto;
+		//border: 2px solid red
+    }
+	.audio-input-container {
+        width: 96%;
+        height: 40px;
+        position: absolute;
+        bottom: 1px;
+        left: 2%;
+		right: 2%;
+		align: center;
+        background-color: transparent;
+    }
+	.textArea-audio-input {
+	
+		box-sizing: border-box;
+		position: absolute;
+		//bottom: 0.5rem;
+		//left: 0;
+		padding: 0rem;
+		font-family: 'Noto Sans JP', sans-serif;
+		font-size: 30px;
+		font-weight: 500;
+		letter-spacing: 0.05em;
+		//line-height: 163%;
+		color: #fff;
+		text-shadow:0 0 5px #000;
+		-webkit-text-stroke-width: 0.3px;
+		-webkit-text-stroke-color: #000;
+		//text-align: justify;
+		opacity: 0.9;
+	
+	    text-align: center;
+        //object-fit: fill;
+		width: 100%;
+        //height: 200px;
+        background-color: #12121260;
+    }
+	.textArea-promptmemo {
+	    resize:none;
+		border: 1px solid gray;
+		width: 600px;
+		height:40px;
+		
+    }
+    .pptBtn {
+        width: 60px;
+        position: absolute;
+        right: 15%;
+    }
+    .temBtn {
+        width: 60px;
+        position: absolute;
+        left: 15%;
+    }
+    .swiper-button-next, .swiper-button-prev{
+        height: 27px;
+    }
+	
+    @keyframes scaleDrawBig {
+        from { width: 300px;}
+        to {width:900px;}
+    }
+    @keyframes scaleDrawSm {
+        from { width: 900px;}
+        to {width:300px;}
+    }
+
+    .swiper-container-big {
+        width: 900px;
+        height: 480px;
+		top: 0rem;
+        -webkit-animation-name: scaleDrawBig;
+        /*关键帧名称*/
+        -webkit-animation-timing-function: ease-in-out;
+        /*动画的速度曲线*/
+        -webkit-animation-iteration-count: 1;
+        /*动画播放的次数*/
+        -webkit-animation-duration: 1s;
+        /*动画所花费的时间*/
+    }
+    .swiper-container-sm {
+        width: 300px;
+        height: 300px;
+		top: 3rem;
+        -webkit-animation-name: scaleDrawSm;
+        /*关键帧名称*/
+        -webkit-animation-timing-function: ease-in-out;
+        /*动画的速度曲线*/
+        -webkit-animation-iteration-count: 1;
+        /*动画播放的次数*/
+        -webkit-animation-duration: 1s;
+        /*动画所花费的时间*/
+    }
+    #page1 {
+        width: 100%;
+        padding-left: 2rem;
+    }
+
+    .one-page-title-top,
+    .one-page-sexStr,
+    .one-page-name {
+        font-size: 2rem;
+        color: #1379e2;
+    }
+
+    .page-text {
+	    background-color: #ffffff60;
+        font-size: 2.5rem;
+        color: black;
+         font-weight: 500;
+         width: fit-content;
+    }
+
+    .one-page-row {
+        background-color: #ffffff60;
+    height: 4rem;
+    width: 35rem;
+    line-height: 4rem;
+    font-size: 2.3rem;
+    color: black;
+    margin-top: 2rem;
+    }
+
+    video {
+        width: 100%;
+        height: 100%;
+    }
+</style>
+
+<body onload="onBodyLoad()">
+    <header>
+      <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#navigation">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Prezi検証</a>
+                </div>
+                <div class="collapse navbar-collapse" id="navigation">
+                    <!-- <span class="navbar-text navbar-right" id="userName"></span> -->
+                    <span class="navbar-text navbar-right" id="userId"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <article class="warp">
+
+        <section class="ß" style="text-align:center;border:none;margin:auto; margin-top:0px;position: relative;width: 900px;">
+            <textarea id="textAreaMemo" class="textArea-promptmemo" placeholder="メモ、キュー出し、リマインダーをここに書く..." rows="3"></textarea>
+		</section>
+        <section class="experiment">
+            <div id="videos-container">
+			    <video id="video" class="video" controls=false ></video>
+            </div>
+            <div id="ppt_swiper" class="swiper-container swiper-container-ppt" onclick="swiperClick()">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div id="page1">
+                            <div class="one-page-title-top" id="Department__c">
+                            </div>
+                            <div class="page-text">Finplexコンセプトおよび活動紹介</div>
+                            <div class="one-page-name" id="Name" ></div>
+                            <!--div class="one-page-sexStr" id="sexStr" style="color:snow"></div-->
+                            <div class="one-page-row">Finplexのコンセプト</div>
+                            <div class="one-page-row">Finplexソリューション紹介</div>
+                            <div class="one-page-row">BOOTCAMP活動紹介</div>
+                            <div class="one-page-row">お願い事項</div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide"><div id="page1">
+                        <div class="one-page-title-top" id="Department__c" >
+                        </div>
+
+                        <div class="one-page-row">Finplexのコンセプト</div>
+                        <div class="page-text" style="margin-top: 2rem;">Finplexのコンセプトの詳細内容です</div>
+                    </div></div>
+                </div>
+            </div>
+			<div class="audio-input-container" id="audio-input-container">
+			    <div id="textAreaAudioInput" class="textArea-audio-input"> </div>
+            </div>
+        </section>
+        <section class="ß" style="text-align:center;border:none;margin:auto; margin-top:1px;position: relative;width: 900px;">
+            <span id="videoTime">00:00</span>
+            <div class="pptBtn" id="pptBtn">
+                <div class="swiper-button-prev swiper-button-prev-ppt"></div>
+                <div class="swiper-button-next swiper-button-next-ppt"></div>
+            </div>
+		</section>
+        <section class="ß" style="text-align:center;border:none;margin:auto; margin-top:1px;position: relative;width: 900px;">
+            <!-- <button id="openCamera">カメラを開く</button>
+            <button id="start-recording" disabled>スタート</button>
+            <button id="stop-recording" disabled>ストップ</button>
+            <button id="save-recording" disabled>保存</button> -->
+            <!--<a href="javascript:void(0)" onclick="send()">发送</a>-->
+ 
+            <button id="start-recording" type="button" class="btn btn-default btn-lg">
+                <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span>録画開始
+            </button>
+            <button id="stop-recording" disabled type="button" class="btn btn-default btn-lg">
+                <span class="glyphicon glyphicon glyphicon-stop" aria-hidden="true"></span>録画完了
+            </button>
+            <button id="play-recording" disabled type="button" class="btn btn-default btn-lg">
+                <span class="glyphicon glyphicon-play" aria-hidden="true"></span>再生
+            </button>
+        </section>
+
+
+    </article>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
+    <script>
+		var swipeInitialIndex = 0;
+        var mySwiper = new Swiper('.swiper-container-ppt', {
+            direction: 'vertical',
+            loop: false,
+
+            // 如果需要分页器
+            // pagination: '.swiper-pagination',
+
+            // 如果需要前进后退按钮
+            nextButton: '.swiper-button-next-ppt',
+            prevButton: '.swiper-button-prev-ppt',
+			initialSlide: swipeInitialIndex,
+        });
+        var startBtn = document.getElementById("start-recording");
+        var stopBtn = document.getElementById("stop-recording")
+        var playBtn = document.getElementById("play-recording");
+		var spanVideoTime = document.getElementById("videoTime");
+	    var video = document.getElementById('video');
+		var textAreaMemo = $('#textAreaMemo');
+		var audioResult = document.getElementById('textAreaAudioInput');
+		var commonTools;
+
+        /**
+         * bodyのonloadのイベント関数
+         **/
+		function onBodyLoad()
+		{
+			//var len = videosContainer.childNodes.length;
+			//for (var i = 0; i < len; i++) {
+			//    videosContainer.removeChild(videosContainer.childNodes[i]);
+			//}
+			var url = decodeURI(window.location.href.split("?")[1]);
+            if (url != "") {
+                // userName = '';//url.split("userName=")[1].split("&")[0];
+                // userId = url.split("userId=")[1].split("&")[0];
+                // document.getElementById("userName").innerText = userName;
+                // document.getElementById("userId").innerText = userId;
+                userId = localStorage.getItem("user_id");
+                document.getElementById("userId").innerText=userId;
+            }
+			var videoWidth = 900;
+			var videoHeight = 480;
+			//document.createElement('video');
+			video.controls = false;
+			video.muted = true;　//ビデオ録画の時、muteにする
+			//video.width = videoWidth;
+			//video.height = videoHeight;
+			//video.videoWidth = videoWidth;
+			//video.videoHeight = videoHeight;
+			
+			commonTools = new CommonTools(textAreaMemo, video, mySwiper, audioResult);
+			commonTools.setControls([startBtn, stopBtn, playBtn, spanVideoTime, swipeInitialIndex]);
+            getData();
+		}
+		/**
+         * 連携用データをリクエストする
+         **/
+         function getData() {
+            var url = "https://fujitsu-test--fujitsu.my.salesforce.com/services/apexrest/RestforPrezi?userId=" + localStorage.getItem("user_id");
+            $.ajax({
+                url: url,
+                type: 'GET',
+                Accept: "application/json",
+                contentType: "application/x-www-form-urlencoded",
+                headers: {
+                    "Authorization": localStorage.getItem("token_type") + " " + localStorage.getItem("access_token")
+                },
+                success: function (data) {
+                    // $("#ppt_swiper").hide();
+                    // $("#pptBtn").hide();
+                    // $("#get-saleforceinfo").hide();
+                    // $("#templete_swiper").show();
+                    // $("#temBtn").show();
+                    // $("#get-ppt").show()
+		        	// $("#audio-input-container").hide();
+		        
+				    if(data.length > 0){
+						$(".one-page-title-top").each(function(e){
+							$(this).text(data[0].Department__c);
+						});
+						$("#Name").text(data[0].Name)
+						//$("#sexStr").text(data[0].Position__c + "  " + data[0].Sex__c)
+                    }
+                }
+
+            });
+        }
+        
+        /**
+         * 轮播PPT区域点击时候放大缩小效果
+         **/
+        function swiperClick() {
+		    
+			
+			return;
+			
+            let isBig = $(".swiper-container-big").length > 0;
+            if (isBig) {
+                $(".swiper-container").removeClass("swiper-container-big");
+                $(".swiper-container").addClass("swiper-container-sm");
+
+            } else {
+                $(".swiper-container").removeClass("swiper-container-sm");
+                $(".swiper-container").addClass("swiper-container-big");
+            }
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+getJson({"userinfo":[ 
+		{ 
+		"name":"田中　太郎", 
+		"sex":"男", 
+		"userId":"testuser1@pku.com" ,
+		"password":"fujitsu2021" 
+		}, 
+		{ 
+		"name":"品川　太郎", 
+		"sex":"男", 
+		"userId":"testuser2@pku.com" ,
+		"password":"fujitsu2021" 
+		}, 
+		{ 
+		"name":"川崎　太郎", 
+		"sex":"男", 
+		"userId":"testuser3@pku.com" ,
+		"password":"fujitsu2021" 
+		}
+	] 
+})

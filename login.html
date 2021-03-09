@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <title>ログイン</title>
+        <link rel="STYLESHEET" href="css/tm.css" type="text/css">
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script type="text/javascript" src="js/login.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+        <!-- <script type="text/javascript" src="json/userinfo.json?callback=getJson"></script> -->
+    </head>
+    <body style="background-image: linear-gradient(#adb6ca,#b397b2, #6f77ca);">
+       
+        <h3 align="center" style="padding-top: 8%;">Prezi Demo</h1>
+       
+        <div class="div-warp">
+            <table border="0" style="margin:  0 auto;">
+                <form>
+                    <tr>
+                        <th class="login_field">
+                            ユーザID:
+                        </th>
+                        <td class="login_field">
+                            <input type="text" name="user_id" value=""
+                                               size="24" id="user_id"
+                                               >
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="login_field">
+                            パスワード:
+                        </th>
+                        <td class="login_field">
+                            <input type="password" name="password" value=""
+                                                        size="24" id="password"
+                                                        >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="login_button">
+<!--                           <input type="submit" value="ログイン" id="login">        -->
+                           
+                           <button type="button" id="login"  class="btn btn-primary" onclick="loginFn()">ログイン</button>
+                        </td>
+                    </tr>
+                </form>
+            </table>
+        </div>
+    </body>
+</html>
