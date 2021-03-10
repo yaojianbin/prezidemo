@@ -7,6 +7,7 @@
     <script src="js/audioInputScript.js"></script>
     <script src="js/commonTools.js"></script>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <link rel="stylesheet" href="css/ppt-tem.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css">
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -39,7 +40,7 @@
         margin: 2px auto 0;
         position: relative;
         background: black;
-        min-height: 400px;
+        height: 400px;
 
     }
 
@@ -67,46 +68,7 @@
         height: auto;
 		//border: 2px solid red
     }
-	.audio-input-container {
-        width: 96%;
-        height: 40px;
-        position: absolute;
-        bottom: 1px;
-        left: 2%;
-		right: 2%;
-		align: center;
-        background-color: transparent;
-    }
-	.textArea-audio-input {
-	
-		box-sizing: border-box;
-		position: absolute;
-		bottom: 0.5rem;
-		padding: 0rem;
-		font-family: 'Noto Sans JP', sans-serif;
-		font-size: 30px;
-		font-weight: 500;
-		letter-spacing: 0.05em;
-		//line-height: 163%;
-		color: #fff;
-		text-shadow:0 0 5px #000;
-		-webkit-text-stroke-width: 0.3px;
-		-webkit-text-stroke-color: #000;
-		//text-align: justify;
-		opacity: 0.9;
-	
-	    text-align: center;
-        //object-fit: fill;
-		width: 100%;
-        background-color: #12121260;
-    }
-	.textArea-promptmemo {
-	    resize:none;
-		border: 1px solid gray;
-		width: 600px;
-		height:40px;
-		
-    }
+
     .pptBtn {
         width: 60px;
         position: absolute;
@@ -189,8 +151,11 @@
     }
 
     video {
-        width: 100%;
-        height: 100%;
+        /* width: 100%;
+        height: 100%; */
+        width: 720px;
+        height: 400px;
+        object-fit: cover;
     }
 	
 </style>
@@ -218,19 +183,14 @@
     <article class="warp">
 
         <section class="ß" style="text-align:center;border:none;margin:auto; margin-top:0px;position: relative;width: 900px;">
-            <textarea id="textAreaMemo" class="textArea-promptmemo" placeholder="メモ、キュー出し、リマインダーをここに書く..." rows="3"></textarea>
-			<button id="save-memos" type="button" >
-				保存
-			</button>
-			<button id="delete-memos" type="button" >
-				削除
-			</button>
+			<button id="save-memos" type="button" >メモ保存</button>
+			<button id="delete-memos" type="button" >メモ削除</button>
 		</section>
         <section class="experiment">
+            <textarea id="textAreaMemo" class="textArea-promptmemo" placeholder="メモ、キュー出し、リマインダーをここに書く..." rows="3"></textarea>
             <div id="videos-container" >
 			    <video id="video" class="video" controls=false ></video>
 		    </div>
-
             <div id="ppt_swiper" class="swiper-container swiper-container-ppt" onclick="swiperClick()">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide"><img src="images/img1.jpg"></div>
@@ -241,7 +201,7 @@
             </div>
 			
 			<div class="audio-input-container" id="audio-input-container">
-			    <div id="textAreaAudioInput" class="textArea-audio-input"> </div>
+			    <div id="textAreaAudioInput" class="audio-input-display"> </div>
             </div>
 			
 			<div id="swiperAnime" class="swiper-container swiper-container-anime" onclick="swiperClick()">
@@ -252,14 +212,14 @@
                 </div>
             </div>
         </section>
-        <section class="ß" style="text-align:center;border:none;margin:auto; margin-top:1px;position: relative;width: 900px;">
+        <section class="ß" style="text-align:center;border:none;margin:auto; margin-top:10px;position: relative;width: 900px;">
             <span id="videoTime">00:00</span>
             <div class="pptBtn" id="pptBtn">
                 <div class="swiper-button-prev swiper-button-prev-ppt"></div>
                 <div class="swiper-button-next swiper-button-next-ppt"></div>
             </div>
 		</section>
-        <section class="ß" style="text-align:center;border:none;margin:auto; margin-top:1px;position: relative;width: 900px;">
+        <section class="ß" style="text-align:center;border:none;margin:auto; margin-top:10px;position: relative;width: 900px;">
             <!-- <button id="openCamera">カメラを開く</button>
             <button id="start-recording" disabled>スタート</button>
             <button id="stop-recording" disabled>ストップ</button>
@@ -306,19 +266,14 @@
         var playBtn = document.getElementById("play-recording");
 		var spanVideoTime = document.getElementById("videoTime");
 	    var video = document.getElementById('video');
-		var textAreaMemo = $('#textAreaMemo');
+		var textAreaMemo = document.getElementById('textAreaMemo');
 		var audioResult = document.getElementById('textAreaAudioInput');
 		var commonTools;
 
         /**
          * bodyのonloadのイベント関数
          **/
-		function onBodyLoad()
-		{
-			//var len = videosContainer.childNodes.length;
-			//for (var i = 0; i < len; i++) {
-			//    videosContainer.removeChild(videosContainer.childNodes[i]);
-			//}
+		function onBodyLoad(){
 			var url = decodeURI(window.location.href.split("?")[1]);
             if (url != "") {
                 // userName = '';//url.split("userName=")[1].split("&")[0];
@@ -330,7 +285,6 @@
             }
 			var videoWidth = 900;
 			var videoHeight = 480;
-			//document.createElement('video');
 			video.controls = false;
 			video.muted = true;　//ビデオ録画の時、muteにする
 			//video.width = videoWidth;
@@ -338,18 +292,18 @@
 			//video.videoWidth = videoWidth;
 			//video.videoHeight = videoHeight;
 			
+			//基本的な要素の設定（メモ入力、ビデオ録画・再生、imgのホルダー、音声入力文字表示）
             commonTools = new CommonTools(textAreaMemo, video, mySwiper, audioResult);
+			//ビデオ録画・再生についての要素の設定
 			commonTools.setControls([startBtn, stopBtn, playBtn, spanVideoTime, swipeInitialIndex]);
-		    commonTools.setMemoButtons([document.getElementById("save-memos"),
+            //メモについての要素の設定
+			commonTools.setMemoButtons([document.getElementById("save-memos"),
 			    document.getElementById("delete-memos"),
 				'ppt-'
 			]);
-		    var obj1 = $("#swiperAnime");
+			var obj1 = $("#swiperAnime");
 			obj1.css("background-color", "#12FF4460");
 			obj1.hide();
-			
-			obj1 = $("#imgAnime");
-			obj1.css("border", "3px solid red");
 		}
 		
         /**
@@ -372,7 +326,8 @@
          * 轮播PPT区域点击时候放大缩小效果
          **/
         function swiperClick() {
-		
+		    return;
+
 		    var activeSlide = $(".swiper-slide-active"); 
 			var activeImg = activeSlide.find("img")[0];
 			var imgAnime = $("#imgAnime");

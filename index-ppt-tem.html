@@ -3,9 +3,10 @@
 
 <head>
     <title>video recoder</title>
-    <script src="js/commonTools.js"></script>
     <script src="js/fileSaver.js"></script>
     <script src="js/audioInputScript.js"></script>
+    <script src="js/commonTools.js"></script>
+    <link rel="stylesheet" href="css/ppt-tem.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/css/swiper.min.css">
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -17,8 +18,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-	<script>
-	</script>
+    <script>
+    </script>
 </head>
 <style>
     body {
@@ -26,11 +27,10 @@
     }
 
     .warp {
-        border: 1px solid white;
         width: 100%;
         height: fit-content;
-        margin: 1rem auto;
         padding-bottom: 2rem;
+        margin-top: -2rem;
     }
 
     .experiment {
@@ -38,7 +38,7 @@
         margin: 2px auto 0;
         position: relative;
         background: black;
-        min-height: 400px;
+        height: 400px;
 
     }
 
@@ -50,6 +50,7 @@
         left: 0rem;
         background-color: #75637500;
     }
+
     .swiper-container-tem {
         width: 720px;
         height: 400px;
@@ -60,8 +61,9 @@
 
 
     }
+
     #videos-container {
-       
+
         background: black;
     }
 
@@ -74,77 +76,50 @@
     .swiper-slide img {
         width: 100%;
         height: auto;
-		//border: 2px solid red
+        //border: 2px solid red
     }
-	.audio-input-container {
-        width: 96%;
-        height: 40px;
-        position: absolute;
-        bottom: 1px;
-        left: 2%;
-		right: 2%;
-		align: center;
-        background-color: transparent;
-    }
-	.textArea-audio-input {
-	
-		box-sizing: border-box;
-		position: absolute;
-		//bottom: 0.5rem;
-		//left: 0;
-		padding: 0rem;
-		font-family: 'Noto Sans JP', sans-serif;
-		font-size: 30px;
-		font-weight: 500;
-		letter-spacing: 0.05em;
-		//line-height: 163%;
-		color: #fff;
-		text-shadow:0 0 5px #000;
-		-webkit-text-stroke-width: 0.3px;
-		-webkit-text-stroke-color: #000;
-		//text-align: justify;
-		opacity: 0.9;
-	
-	    text-align: center;
-        //object-fit: fill;
-		width: 100%;
-        //height: 200px;
-        background-color: #12121260;
-    }
-	.textArea-promptmemo {
-	    resize:none;
-		border: 1px solid gray;
-		width: 600px;
-		height:40px;
-		
-    }
+
     .pptBtn {
         width: 60px;
         position: absolute;
         right: 15%;
     }
+
     .temBtn {
         width: 60px;
         position: absolute;
         left: 15%;
     }
-    .swiper-button-next, .swiper-button-prev{
+
+    .swiper-button-next,
+    .swiper-button-prev {
         height: 27px;
     }
-	
+
     @keyframes scaleDrawBig {
-        from { width: 300px;}
-        to {width:900px;}
+        from {
+            width: 300px;
+        }
+
+        to {
+            width: 900px;
+        }
     }
+
     @keyframes scaleDrawSm {
-        from { width: 900px;}
-        to {width:300px;}
+        from {
+            width: 900px;
+        }
+
+        to {
+            width: 300px;
+        }
     }
 
     .swiper-container-big {
         width: 900px;
         height: 480px;
-		top: 0rem;
+        top: 0rem;
         -webkit-animation-name: scaleDrawBig;
         /*关键帧名称*/
         -webkit-animation-timing-function: ease-in-out;
@@ -154,10 +129,11 @@
         -webkit-animation-duration: 1s;
         /*动画所花费的时间*/
     }
+
     .swiper-container-sm {
         width: 300px;
         height: 300px;
-		top: 3rem;
+        top: 3rem;
         -webkit-animation-name: scaleDrawSm;
         /*关键帧名称*/
         -webkit-animation-timing-function: ease-in-out;
@@ -167,9 +143,140 @@
         -webkit-animation-duration: 1s;
         /*动画所花费的时间*/
     }
-    #page1 {
+
+    #page0,
+    #page1,
+    #page2,
+    #page3 {
         width: 100%;
         padding-left: 2rem;
+    }
+
+    @keyframes scalePage0 {
+        from {
+            width: 0px;
+        }
+
+        to {
+            width: 100%;
+        }
+    }
+
+    .page0-an,
+    .page2-an {
+        -webkit-animation-name: scalePage0;
+        /*关键帧名称*/
+        -webkit-animation-timing-function: ease-in-out;
+        /*动画的速度曲线*/
+        -webkit-animation-iteration-count: 1;
+        /*动画播放的次数*/
+        -webkit-animation-duration: 1s;
+        /*动画所花费的时间*/
+    }
+
+    @keyframes scalePage1 {
+        from {
+            width: 0;
+            height: 0;
+            border-radius: 0px;
+            position: absolute;
+            left: 0;
+        }
+
+        to {
+            width: 300px;
+            height: 300px;
+            border-radius: 150px;
+            position: absolute;
+            left: 200px;
+        }
+    }
+
+    .page1-an {
+        -webkit-animation-name: scalePage1;
+        /*关键帧名称*/
+        -webkit-animation-timing-function: ease-in-out;
+        /*动画的速度曲线*/
+        -webkit-animation-iteration-count: 1;
+        /*动画播放的次数*/
+        -webkit-animation-duration: 1s;
+        /*动画所花费的时间*/
+    }
+
+    @keyframes scalePage3 {
+        from {
+            width: 0;
+            height: 0;
+            border-radius: 0px;
+            position: absolute;
+            left: right;
+        }
+
+        to {
+            width: 300px;
+            height: 300px;
+            border-radius: 150px;
+            position: absolute;
+            right: 200px;
+        }
+    }
+
+    .page3-an {
+        -webkit-animation-name: scalePage3;
+        /*关键帧名称*/
+        -webkit-animation-timing-function: ease-in-out;
+        /*动画的速度曲线*/
+        -webkit-animation-iteration-count: 1;
+        /*动画播放的次数*/
+        -webkit-animation-duration: 1s;
+        /*动画所花费的时间*/
+    }
+
+    .swiper-container-sm {
+        width: 300px;
+        height: 300px;
+        top: 3rem;
+        -webkit-animation-name: scaleDrawSm;
+        /*关键帧名称*/
+        -webkit-animation-timing-function: ease-in-out;
+        /*动画的速度曲线*/
+        -webkit-animation-iteration-count: 1;
+        /*动画播放的次数*/
+        -webkit-animation-duration: 1s;
+        /*动画所花费的时间*/
+    }
+
+    .sa-data {
+        min-height: 100px;
+    }
+
+    .left-circle,
+    .right-circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50px;
+        background-color: #5498db;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .circle-warp {
+        display: flex;
+        height: 100px;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .big-circle {
+        width: 300px;
+        height: 300px;
+        border-radius: 150px;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+        background-color: #5498db;
     }
 
     .one-page-title-top,
@@ -180,44 +287,61 @@
     }
 
     .page-text {
-	    background-color: #ffffff60;
+        background-color: #ffffff60;
         font-size: 2.5rem;
         color: black;
-         font-weight: 500;
-         width: fit-content;
+        font-weight: 500;
+        width: fit-content;
     }
 
     .one-page-row {
-        background-color: #ffffff60;
-    height: 4rem;
-    width: 35rem;
-    line-height: 4rem;
-    font-size: 2.3rem;
-    color: black;
-    margin-top: 2rem;
+        /* background-color: #ffffff60; */
+        height: 3rem;
+        width: 35rem;
+        line-height: 3rem;
+        font-size: 2rem;
+        color: black;
+        text-align: center;
     }
 
     video {
-        width: 100%;
+        /* width: 100%;
+        height: 100%; */
+        width: 720px;
+        height: 400px;
+        object-fit: cover;
+    }
+
+    .left {
         height: 100%;
-    }
-	.left{
-        width: 300px;
-        height: 500px;
-        background: #6E6C8A;
-        float: left;/*设为左浮动*/
+        background: #e7e7e7;
+        float: left;
         text-align: left;
+        position: absolute;
+        width: 15%;
+        z-index: 99999;
+        color: black;
     }
+
     input[type="radio"] {
         margin-top: -1px;
         margin-left: 10px;
         vertical-align: middle;
     }
+
+    .pro-select-title {
+        font-size: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    #selectProject div {
+        margin: 1rem;
+    }
 </style>
 
 <body onload="onBodyLoad()">
     <header>
-      <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
@@ -238,65 +362,105 @@
     <article class="warp">
         <section class="left">
             <form name="radioForm" id="selectProject">
-                <p>プロジェクト選択:</p>
-            </form> 
+                <p class="pro-select-title">プロジェクト選択:</p>
+            </form>
         </section>
 
-        <section class="ß" style="text-align:center;border:none;margin:auto; margin-top:0px;position: relative;width: 900px;">
-            <textarea id="textAreaMemo" class="textArea-promptmemo" placeholder="メモ、キュー出し、リマインダーをここに書く..." rows="3"></textarea>
-			<button id="save-memos" type="button" >
-				保存
-			</button>
-			<button id="delete-memos" type="button" >
-				削除
-			</button>
+        <section class="ß"
+            style="text-align:center;border:none;margin:auto; margin-top:0px;position: relative;width: 900px;">
+			<button id="save-memos" type="button" >メモ保存</button>
+			<button id="delete-memos" type="button" >メモ削除</button>
 		</section>
         <section class="experiment">
+            <textarea id="textAreaMemo" class="textArea-promptmemo" placeholder="メモ、キュー出し、リマインダーをここに書く..." rows="3"></textarea>
             <div id="videos-container">
-			    <video id="video" class="video" controls=false ></video>
+                <video id="video" class="video" controls=false></video>
             </div>
             <div id="ppt_swiper" class="swiper-container swiper-container-ppt" onclick="swiperClick()">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
-                        <div id="page1">
-                            <div class="one-page-title-top" id="Department__c">
+                        <div id="page0" class="page1-an">
+                            <div class="sa-data">
+                                <div class="one-page-title-top" id="Department__c">
+                                </div>
+                                <div class="one-page-name" id="projectName"></div>
+                                <div class="one-page-name" id="Name"></div>
                             </div>
-                            <div class="one-page-name" id="projectName"></div>
-                            <div class="one-page-name" id="Name" ></div>
                             <!--div class="one-page-sexStr" id="sexStr" style="color:snow"></div-->
-                            <div class="one-page-row">Finplexのコンセプト</div>
+                            <!-- <div class="one-page-row">Finplexのコンセプト</div>
                             <div class="one-page-row">Finplexソリューション紹介</div>
                             <div class="one-page-row">BOOTCAMP活動紹介</div>
-                            <div class="one-page-row">お願い事項</div>
+                            <div class="one-page-row">お願い事項</div> -->
+                            <div class="circle-warp">
+                                <div class="left-circle">活動紹介</div>
+                                <div class="right-circle">活動内容</div>
+                            </div>
+
                         </div>
                     </div>
-                    <div class="swiper-slide"><div id="page1">
-                        <div class="one-page-title-top" id="Department__c" >
-                        </div>
+                    <div class="swiper-slide">
+                        <div id="page1">
+                            <!-- <div class="one-page-title-top" id="Department__c">
+                            </div>
 
-                        <div class="one-page-row">Finplexのコンセプト</div>
-                        <div class="page-text" style="margin-top: 2rem;">Finplexのコンセプトの詳細内容です</div>
-                    </div></div>
+                            <div class="one-page-row">Finplexのコンセプト</div>
+                            <div class="page-text" style="margin-top: 2rem;">Finplexのコンセプトの詳細内容です</div> -->
+                            <div class="big-circle">
+                                <div class="one-page-row">Finplexのコンセプト</div>
+                                <div class="one-page-row">Finplexソリューション紹介</div>
+                                <div class="one-page-row">BOOTCAMP活動紹介</div>
+                                <div class="one-page-row">お願い事項</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div id="page2">
+                            <div class="sa-data">
+                                <div class="one-page-title-top" id="Department__c">
+                                </div>
+                                <div class="one-page-name" id="projectName"></div>
+                                <div class="one-page-name" id="Name"></div>
+                            </div>
+                            <div class="circle-warp">
+                                <div class="left-circle">活動紹介</div>
+                                <div class="right-circle">活動内容</div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div id="page3">
+                            <div class="big-circle">
+                                <div class="one-page-row">活動内容1</div>
+                                <div class="one-page-row">活動内容2</div>
+                                <div class="one-page-row">活動内容3</div>
+                                <div class="one-page-row">活動内容4</div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-			<div class="audio-input-container" id="audio-input-container">
-			    <div id="textAreaAudioInput" class="textArea-audio-input"> </div>
+            <div class="audio-input-container" id="audio-input-container">
+                <div id="textAreaAudioInput" class="audio-input-display"> </div>
             </div>
         </section>
-        <section class="ß" style="text-align:center;border:none;margin:auto; margin-top:1px;position: relative;width: 900px;">
+        <section class="ß"
+            style="text-align:center;border:none;margin:auto; margin-top:10px;position: relative;width: 900px;">
             <span id="videoTime">00:00</span>
             <div class="pptBtn" id="pptBtn">
                 <div class="swiper-button-prev swiper-button-prev-ppt"></div>
                 <div class="swiper-button-next swiper-button-next-ppt"></div>
             </div>
-		</section>
-        <section class="ß" style="text-align:center;border:none;margin:auto; margin-top:1px;position: relative;width: 900px;">
+        </section>
+        <section class="ß"
+            style="text-align:center;border:none;margin:auto; margin-top:10px;position: relative;width: 900px;">
             <!-- <button id="openCamera">カメラを開く</button>
             <button id="start-recording" disabled>スタート</button>
             <button id="stop-recording" disabled>ストップ</button>
             <button id="save-recording" disabled>保存</button> -->
             <!--<a href="javascript:void(0)" onclick="send()">发送</a>-->
- 
+
             <button id="start-recording" type="button" class="btn btn-default btn-lg">
                 <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span>録画開始
             </button>
@@ -316,10 +480,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.2/js/swiper.jquery.min.js"></script>
     <script>
-		var swipeInitialIndex = 0;
+        var swipeInitialIndex = 0;
         var mySwiper = new Swiper('.swiper-container-ppt', {
+            // onSlideChangeStart:function(swiper){
+            //     // alert(swiper.activeIndex);
+            //     pageId="#page"+swiper.activeIndex;
+            //     for(let i=0;i<4;i++){
+            //         let page="#page"+i;
+            //         $(page).removeAttr('class');
+
+            //     }
+            //     $(pageId).addClass("page"+swiper.activeIndex+"-an");
+
+            // },
             direction: 'vertical',
             loop: false,
+
 
             // 如果需要分页器
             // pagination: '.swiper-pagination',
@@ -327,57 +503,54 @@
             // 如果需要前进后退按钮
             nextButton: '.swiper-button-next-ppt',
             prevButton: '.swiper-button-prev-ppt',
-			initialSlide: swipeInitialIndex,
+            initialSlide: swipeInitialIndex,
         });
         var startBtn = document.getElementById("start-recording");
         var stopBtn = document.getElementById("stop-recording")
         var playBtn = document.getElementById("play-recording");
-		var spanVideoTime = document.getElementById("videoTime");
-	    var video = document.getElementById('video');
-		var textAreaMemo = $('#textAreaMemo');
-		var audioResult = document.getElementById('textAreaAudioInput');
-		var commonTools;
+        var spanVideoTime = document.getElementById("videoTime");
+        var video = document.getElementById('video');
+        var textAreaMemo = document.getElementById('textAreaMemo');
+        var audioResult = document.getElementById('textAreaAudioInput');
+        var commonTools;
 
         /**
          * bodyのonloadのイベント関数
          **/
-		function onBodyLoad()
-		{
-			//var len = videosContainer.childNodes.length;
-			//for (var i = 0; i < len; i++) {
-			//    videosContainer.removeChild(videosContainer.childNodes[i]);
-			//}
-			var url = decodeURI(window.location.href.split("?")[1]);
+        function onBodyLoad() {
+            var url = decodeURI(window.location.href.split("?")[1]);
             if (url != "") {
                 // userName = '';//url.split("userName=")[1].split("&")[0];
                 // userId = url.split("userId=")[1].split("&")[0];
                 // document.getElementById("userName").innerText = userName;
                 // document.getElementById("userId").innerText = userId;
                 userId = localStorage.getItem("user_id");
-                document.getElementById("userId").innerText=userId;
+                document.getElementById("userId").innerText = userId;
             }
-			var videoWidth = 900;
-			var videoHeight = 480;
-			//document.createElement('video');
-			video.controls = false;
-			video.muted = true;　//ビデオ録画の時、muteにする
-			//video.width = videoWidth;
-			//video.height = videoHeight;
-			//video.videoWidth = videoWidth;
-			//video.videoHeight = videoHeight;
-			
-			commonTools = new CommonTools(textAreaMemo, video, mySwiper, audioResult);
+            var videoWidth = 900;
+            var videoHeight = 480;
+            video.controls = false;
+            video.muted = true;　//ビデオ録画の時、muteにする
+            //video.width = videoWidth;
+            //video.height = videoHeight;
+            //video.videoWidth = videoWidth;
+            //video.videoHeight = videoHeight;
+
+            //基本的な要素の設定（メモ入力、ビデオ録画・再生、imgのホルダー、音声入力文字表示）
+            commonTools = new CommonTools(textAreaMemo, video, mySwiper, audioResult, true);
+            //ビデオ録画・再生についての要素の設定
 			commonTools.setControls([startBtn, stopBtn, playBtn, spanVideoTime, swipeInitialIndex]);
-            commonTools.setMemoButtons([document.getElementById("save-memos"),
+            //メモについての要素の設定
+			commonTools.setMemoButtons([document.getElementById("save-memos"),
 			    document.getElementById("delete-memos"),
 				'tem-'
 			]);
 			getData();
-		}
-		/**
+        }
+        /**
          * 連携用データをリクエストする
          **/
-         function getData() {
+        function getData() {
             var url = "https://fujitsu-test--fujitsu.my.salesforce.com/services/apexrest/RestforPrezi?userId=" + localStorage.getItem("user_id");
             $.ajax({
                 url: url,
@@ -388,75 +561,85 @@
                     "Authorization": localStorage.getItem("token_type") + " " + localStorage.getItem("access_token")
                 },
                 success: function (data) {
-					$.each(data,(index,value) => {
-                        if(index == 1){
-                            createRadio("selectProject","radio","project",index,data[index].PreziProject__r.ProjectName__c,"checked");
-                        }else{
-                            createRadio("selectProject","radio","project",index,data[index].PreziProject__r.ProjectName__c,"");
-                        }                        
+                    $.each(data, (index, value) => {
+                        if (index == 0) {
+                            createRadio("selectProject", "radio", "project", index, data[index].PreziProject__r.ProjectName__c, "checked");
+                        } else {
+                            createRadio("selectProject", "radio", "project", index, data[index].PreziProject__r.ProjectName__c, "");
+                        }
                     });
                     var rad = document.radioForm.project;
                     var prev = null;
                     var department = null;
                     var userNm = null;
-                    for(var i = 0; i < rad.length; i++) {
-                        rad[i].addEventListener('change', function() {
-                            if(this !== prev) {
+                    department = data[0].PreziUser__r.Department__c;
+                    userNm = data[0].PreziUser__r.Name;
+                    projectNm = data[0].PreziProject__r.ProjectName__c;
+                    $(".one-page-title-top").each(function (e) {
+                        $(this).text(department);
+                    });
+                    $("#Name").text(userNm);
+                    $("#projectName").text(projectNm);
+                    for (var i = 0; i < rad.length; i++) {
+                        rad[i].addEventListener('change', function () {
+                            if (this !== prev) {
                                 prev = this;
                             }
                             //alert(data[this.id].PreziProject__r.ProjectName__c);   
                             department = data[this.id].PreziUser__r.Department__c;
                             userNm = data[this.id].PreziUser__r.Name;
                             projectNm = data[this.id].PreziProject__r.ProjectName__c;
-                            $(".one-page-title-top").each(function(e){
+                            $(".one-page-title-top").each(function (e) {
                                 $(this).text(department);
                             });
                             $("#Name").text(userNm);
-                            $("#projectName").text(projectNm);                
+                            $("#projectName").text(projectNm);
                         });
                     }
                 }
 
             });
         }
-		function createRadio(parentId,eleType,eleName,eleId,eleValue,elechecked){  
-            var board = document.getElementById(parentId);  
-            var e = createElement("input",eleName);  
-            e.type = eleType;  
-            e.id = eleId;  
-            e.value = eleValue;  
+        function createRadio(parentId, eleType, eleName, eleId, eleValue, elechecked) {
+            var board = $("#" + parentId);
+            var e = createElement("input", eleName);
+            e.type = eleType;
+            e.id = eleId;
+            e.value = eleValue;
             //e.onclick = handleClick(this); 
-            board.appendChild(e);  
+            var div = '<div id="div_' + eleId + '"></div>';
+            board.append(div);
+            board.find("#div_" + eleId + "").append(e);
             //添加文字  
-            board.appendChild(document.createTextNode(eleValue));  
+            board.find("#div_" + eleId + "").append(document.createTextNode(eleValue));
             //设置选中  
-            if(elechecked == "checked"){
-                e.setAttribute("checked",elechecked);  
-            }  
-        }  
+            if (elechecked == "checked") {
+                e.setAttribute("checked", elechecked);
+            }
+        }
 
-        function createElement(type, name) {     
-		   var element = null;     
-		   try {     
-			  // First try the IE way; if this fails then use the standard way    
-			  element = document.createElement_x('<'+type+' name="'+name+'">');     
-		   } catch (e) {     
-			  // Probably failed because we’re not running on IE  
-		   }     
-		   if (!element) {     
-			  element = document.createElement(type);     
-			  element.name = name;    
-		   }     
-		   return element;     
+        function createElement(type, name) {
+            var element = null;
+            try {
+                // First try the IE way; if this fails then use the standard way    
+                element = document.createElement_x('<' + type + ' name="' + name + '">');
+            } catch (e) {
+                // Probably failed because we’re not running on IE  
+            }
+            if (!element) {
+                element = document.createElement(type);
+                element.name = name;
+            }
+            return element;
         }
         /**
          * 轮播PPT区域点击时候放大缩小效果
          **/
         function swiperClick() {
-		    
-			
-			return;
-			
+
+
+            return;
+
             let isBig = $(".swiper-container-big").length > 0;
             if (isBig) {
                 $(".swiper-container").removeClass("swiper-container-big");

@@ -44,10 +44,18 @@
      	 transform:translate(-50%,-50%);
 	  }
 	  .btnsize{
-	     width:200px;
 		 height:200px;
 		 line-height:60px;
 	  }
+    .bottom-text{
+      font-size: 18px;
+    }
+  .title-top{
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10%;
+  }
     </style>
     <script>
     function loadFinished(){
@@ -99,8 +107,10 @@
       </div>
     </nav>
 </header>
+<div class="title-top">Prezi検証へよこそ</div>
 <main>
   <section class="py-5 text-center container center">
+    
     <div class="row py-lg-5">
       <!-- <div class="div-warp" style="border-color:#f00;border-width:4px">
           <a class="btn btn-primary btnsize" onclick="return windowHref(1);" style="">録画</a>
@@ -108,8 +118,10 @@
           <a class="btn btn-primary btnsize" onclick="return windowHref(3);" style=";margin-left: 100px;">音声入力</a>
       </div> -->
       <div class="div-warp" style="border-color:#f00;border-width:4px">
-        <a class="btn btn-primary btnsize" onclick="return windowHref(1);" style="">PPT</a>
-        <a class="btn btn-primary btnsize" onclick="return windowHref(2);" style=";margin-left: 100px;">Salesforce連携</a>
+        <div class="btnsize" onclick="return windowHref(1);" ><img src="images/ppt_icon.png">
+        <div class="bottom-text">PPTを読み込む</div></div>
+        <div class="btnsize" onclick="return windowHref(2);" style="margin-left: 100px;"><img src="images/tem_icon.png">
+        <div class="bottom-text">活データのテンプレート</div></div>
        
     </div>
     </div>

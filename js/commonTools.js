@@ -1,6 +1,6 @@
 class CommonTools{
 
-	constructor(textAreaMemo, video, swiper, audioResult){
+	constructor(textAreaMemo, video, swiper, audioResult,isAn){
 		//textareaの要素
 		this.textAreaObject = textAreaMemo;
 		//videoの要素
@@ -20,34 +20,52 @@ class CommonTools{
 	    this.textUpdateTimeoutID;
 		this.videoFileName;
 		this.stopRecordCallback;
-	    //this.localDestPath = "\\Users\\admin\\Downloads\\";
-	    this.localDestPath = "\\Users\\dangy\\Downloads\\";
+		this.localDestPath = "\\Users\\admin\\Downloads\\";
+		this.isAn=isAn;
+	    // this.localDestPath = "\\Users\\dangy\\Downloads\\";
 
 	    /**
 	     * メモを保存する
 	     **/
-        this.textAreaObject.on('change', (e) => {
+        this.textAreaObject.addEventListener('change', (e) => {
 			var isFound = false;
 			this.localMemos.forEach((item, idx)=>{
 				if(!isFound && item.index == this.mySwiper.activeIndex){
-					item.content = this.textAreaObject.val();
+					item.content = this.textAreaObject.value;
 					isFound = true;
 				}
 			});
 			if(!isFound) {
 				var m = {};
-				m.content = this.textAreaObject.val();
+				m.content = this.textAreaObject.value;
 				m.index = this.mySwiper.activeIndex;
 				this.localMemos.push(m);
 			}
-			
 		});
 		
+	    /**
+	     * メモを変更するときのレスポンス関数
+	     **/
+		this.textAreaObject.addEventListener('input', (e) => {
+			//メモのエリアのサイズの更新
+			this.textAreaHeightSet();
+		});
+	
 	    /**
 	     * イメージの切り替えのレスポンス関数
 	     **/
 		this.mySwiper.on('transitionEnd', (e)=> {
+		
+			if(this.isAn){
+				return;
+			}
 			this.swiperTransitionEnd(e);
+		});
+		this.mySwiper.on('onSlideChangeStart', (e)=> {
+			if(this.isAn){
+				this.swiperTransitionEnd(e);
+			}
+		
 		});
 		
 	    /**
@@ -74,6 +92,20 @@ class CommonTools{
 	videoEnded(e) {
 		this.isPlay = false;
 	}
+	
+	//メモのエリアのサイズの更新
+　　　　textAreaHeightSet(){
+	    var argObj = this.textAreaObject;
+        // 一旦テキストエリアを小さくしてスクロールバー（縦の長さを取得）
+        argObj.style.height = "10px";
+        var wSclollHeight = parseInt(argObj.scrollHeight);
+        // 1行の長さを取得する
+        var wLineH = parseInt(argObj.style.lineHeight.replace(/px/, ''));
+        // 最低2行の表示エリアにする
+        if(wSclollHeight < (wLineH * 2)){wSclollHeight=(wLineH * 2);}
+        // テキストエリアの高さを設定する
+        argObj.style.height = wSclollHeight + "px";
+    }
 	/**
 	 * イメージの切り替えのレスポンス関数
 	 **/
@@ -95,11 +127,12 @@ class CommonTools{
 		//リセット
 		var info = {};
 		this.audioResult.innerHTML = '';
-		//切り替えの
-		console.log('transitionEnd. the active index is: ' + this.mySwiper.activeIndex);
-		console.log('transitionEnd. video.currentTime is: ' + this.video.currentTime);
+		//切り替えの情報の保存
 		info.time = Math.floor((Date.now() - this.timeStartVideo) / 1000);
 		info.index = this.mySwiper.activeIndex;
+		console.log('transitionEnd. the active index is: ' + this.mySwiper.activeIndex);
+		console.log('transitionEnd. video.currentTime is: ' + this.video.currentTime);
+		console.log('transitionEnd. info.time is: ' + info.time);
 		this.pptImgSwitchInfo.push(info);
 	};
 	/**
@@ -113,7 +146,7 @@ class CommonTools{
 		    if(isFinal){
 			    var info = {};
 				//音声での入力の内容を保存
-				info.time = Math.floor((Date.now() - this.timeStartVideo) / 1000);
+				info.time = Math.floor((Date.now() - this.timeStartVideo) / 1000) - 3;
 				info.index = this.mySwiper.activeIndex;
 				info.audioContent = audioText;
 				this.pptImgSwitchInfo.push(info);
@@ -160,7 +193,7 @@ class CommonTools{
 				{
 					console.log("currenttime is :"+ this.video.currentTime );
 					console.log("info.index is :"+ info.index );
-					this.mySwiper.slideTo(info.index, 300, false);
+					this.mySwiper.slideTo(info.index, 300, true);
 					if(info.audioContent){
 						this.audioResult.innerHTML = info.audioContent;
 						this.setTimeoutForClearText();
@@ -179,15 +212,64 @@ class CommonTools{
 	};
     
 	changeMemo(activeIdx){
+		if(this.isAn){
+			let pageId="#page"+activeIdx;
+			for(let i=0;i<4;i++){
+				let page="#page"+i;
+				$(page).removeAttr('class');
+
+			}
+			$(pageId).addClass("page"+activeIdx+"-an");
+		}
 		var txt = '';
 		this.localMemos.forEach(function(item, idx){
 			if(item.index == activeIdx){
 				txt = item.content;
 			}
 		});		
-		this.textAreaObject.val(txt);
+		//メモ内容の更新
+        this.textAreaObject.value = txt;
+		//メモのエリアのサイズの更新
+		this.textAreaHeightSet();
 	}
-	
+	setMemoButtons(buttons){		
+		var key = buttons[2] + 'localMemos';
+		
+		var saveMemos = buttons[0];
+		var deleteMemos = buttons[1];
+		//保存
+		saveMemos.onclick = (e) => {
+			localStorage.setItem(key, JSON.stringify(this.localMemos));
+		};
+		//削除
+		deleteMemos.onclick = (e) => {
+			localStorage.removeItem(key);
+			this.updateMemo(key);
+		};
+		
+		this.updateMemo(key);
+	}
+	updateMemo(key){
+		var isFound = false;
+		var txt = '';
+		var index = this.mySwiper.activeIndex;
+		this.localMemos = JSON.parse(localStorage.getItem(key));
+		if(this.localMemos && this.localMemos.length > 0){
+		    this.localMemos.forEach((item, idx)=>{
+				if(!isFound && item.index == index){
+					txt = item.content;
+					isFound = true;
+				}
+			});
+		}
+		else{
+			this.localMemos = [];
+		}
+		//メモ内容の更新
+        this.textAreaObject.value = txt;
+		//メモのエリアのサイズの更新
+		this.textAreaHeightSet();
+	}
 	setControls(controls){
 		//videoの要素
 		this.startBtn = controls[0];
@@ -357,7 +439,7 @@ class CommonTools{
 		this.pptImgSwitchInfo = info.switch;
 		this.videoTotalTime = info.videoTotalTime;
 	
-		this.mySwiper.slideTo(this.swipeInitialIndex, 300, false);
+		this.mySwiper.slideTo(this.swipeInitialIndex, 300, true);
 		
 		this.video.src = this.localDestPath + filename;
 		this.video.srcObject = null;
@@ -367,42 +449,6 @@ class CommonTools{
 		
 		this.isRecord = false;
 		$("#pptBtn").hide();
-	}
-	setMemoButtons(buttons){		
-		var key = buttons[2] + 'localMemos';
-		
-		var saveMemos = buttons[0];
-		var deleteMemos = buttons[1];
-		//保存
-		saveMemos.onclick = (e) => {
-			localStorage.setItem(key, JSON.stringify(this.localMemos));
-		};
-		//削除
-		deleteMemos.onclick = (e) => {
-			localStorage.removeItem(key);
-			this.updateMemo(key);
-		};
-		
-		this.updateMemo(key);
-	}
-	updateMemo(key){
-		var isFound = false;
-		var txt = '';
-		var index = this.mySwiper.activeIndex;
-		this.localMemos = JSON.parse(localStorage.getItem(key));
-		if(this.localMemos && this.localMemos.length > 0){
-		    this.localMemos.forEach((item, idx)=>{
-				if(!isFound && item.index == index){
-					txt = item.content;
-					isFound = true;
-				}
-			});
-		}
-		else{
-			this.localMemos = [];
-		}
-		
-        this.textAreaObject.val(txt);
 	}
 }
 
