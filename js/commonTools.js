@@ -21,6 +21,8 @@ class CommonTools{
 		this.videoFileName;
 		this.stopRecordCallback;
 		this.localDestPath = "\\Users\\admin\\Downloads\\";
+                // 姚のPCのLocalパス
+		this.localDestPath = "\\Users\\yaoji\\Downloads\\";
 		this.isAn=isAn;
 	    // this.localDestPath = "\\Users\\dangy\\Downloads\\";
 
