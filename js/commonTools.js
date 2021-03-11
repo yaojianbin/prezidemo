@@ -8,7 +8,7 @@ class CommonTools{
 		//swiperの要素
 		this.mySwiper = swiper;
 		this.audioResult = audioResult;
-		
+		this.lastestIndexSwitchInfos4Play = 0; //再生中、最新の切り替え情報のindex
 		this.localMemos = [];
 		this.swipeActiveIndex = 0;
 		this.mediaRecorder = null;
@@ -19,10 +19,11 @@ class CommonTools{
 		this.isRecord = false; //true: record the video; false: donot record the video
 	    this.textUpdateTimeoutID;
 		this.videoFileName;
-		this.stopRecordCallback;
-		this.localDestPath = "\\Users\\admin\\Downloads\\";
+		this.audioStartTime = null;
+		this.audioTextDurationTime = 5;
+		//this.localDestPath = "\\Users\\admin\\Downloads\\";
+	    this.localDestPath = "\\Users\\dangy\\Downloads\\";
 		this.isAn=isAn;
-	    // this.localDestPath = "\\Users\\dangy\\Downloads\\";
 
 	    /**
 	     * メモを保存する
@@ -91,6 +92,7 @@ class CommonTools{
 	}
 	videoEnded(e) {
 		this.isPlay = false;
+        this.lastestIndexSwitchInfos4Play = 0;
 	}
 	
 	//メモのエリアのサイズの更新
@@ -114,7 +116,7 @@ class CommonTools{
 		this.changeMemo(mySwiper.activeIndex);
 		//再生の時、ビデオ作成済の情報で切り替えるので、処理しない
 		if(this.isPlay || !this.isRecord){
-			this.audioResult.innerHTML = '';
+			//this.audioResult.innerHTML = '';
 			this.swipeActiveIndex = this.mySwiper.activeIndex;
 			return;
 		}
@@ -126,7 +128,7 @@ class CommonTools{
 		
 		//リセット
 		var info = {};
-		this.audioResult.innerHTML = '';
+		//this.audioResult.innerHTML = '';
 		//切り替えの情報の保存
 		info.time = Math.floor((Date.now() - this.timeStartVideo) / 1000);
 		info.index = this.mySwiper.activeIndex;
@@ -136,23 +138,50 @@ class CommonTools{
 		this.pptImgSwitchInfo.push(info);
 	};
 	/**
-	 * 音声入力のコールバック関数
+	 * 音声入力--転換文字のコールバック関数
 	 **/
 	audioResultCallback(isFinal, audioText){
 		if(audioText){
 			this.audioResult.innerHTML = audioText;
-			this.setTimeoutForClearText();
 		
 		    if(isFinal){
+				var now = Date.now();
+				var timeOff = Math.floor((now - this.audioStartTime) / 1000);
+				console.log("Date.now():" + now + "  timeOff:" + timeOff);
+                var isFind = false;
 			    var info = {};
-				//音声での入力の内容を保存
-				info.time = Math.floor((Date.now() - this.timeStartVideo) / 1000) - 3;
-				info.index = this.mySwiper.activeIndex;
-				info.audioContent = audioText;
-				this.pptImgSwitchInfo.push(info);
+                var curTime = Math.floor((now - this.timeStartVideo) / 1000) - timeOff - 2;
+                /*for(var i=0; i < this.pptImgSwitchInfo.length; i++)
+				{
+				    info = this.pptImgSwitchInfo[i];
+					if(info.time == curTime)
+					{
+						info.audioContent = audioText;
+						info.audioContentDuration = timeOff > 5 ? timeOff: 5;
+						isFind = true;
+						break;
+					}
+				}*/
+				if(!isFind){
+					//音声での入力の内容を保存
+					info.time = curTime;
+					info.audioContent = audioText;
+					info.audioContentDuration = timeOff > 5 ? timeOff : 5;
+					info.index = this.mySwiper.activeIndex;
+					this.pptImgSwitchInfo.push(info);
+				}
 				console.log("info.time :"+ info.time );
 				console.log("info.index is :"+ info.index );
 				console.log("audioText is :"+ audioText );
+				
+				this.audioStartTime = null;
+				this.audioTextDurationTime = 5;
+    			this.setTimeoutForClearText();
+			}
+			else {
+				if(this.audioStartTime == null){
+					this.audioStartTime = Date.now();
+				}
 			}
 		}
 	}
@@ -166,7 +195,7 @@ class CommonTools{
 				this.audioResult.innerHTML = "";
 				this.textUpdateTimeoutID = 0;
 			}, 
-			5 * 1000);
+			this.audioTextDurationTime * 1000);
 	}
 	
 	/**
@@ -186,7 +215,8 @@ class CommonTools{
 		}
 		else if(this.isPlay){
 			var info ={};
-			for(var i=0; i < this.pptImgSwitchInfo.length; i++)
+			var lastestIndex = this.lastestIndexSwitchInfos4Play;
+			for(var i=lastestIndex; i < this.pptImgSwitchInfo.length; i++)
 			{
 				info = this.pptImgSwitchInfo[i];
 				if(Math.floor(info.time) == Math.floor(this.video.currentTime))
@@ -196,9 +226,13 @@ class CommonTools{
 					this.mySwiper.slideTo(info.index, 300, true);
 					if(info.audioContent){
 						this.audioResult.innerHTML = info.audioContent;
+						
+						this.audioTextDurationTime = info.audioContentDuration;
 						this.setTimeoutForClearText();
+					    console.log("info.audioContent is :"+ info.audioContent );
 					}
-					
+					//最新の切り替え情報のindexの保存
+					//this.lastestIndexSwitchInfos4Play = i;
 					break;
 				}
 			}
@@ -234,6 +268,7 @@ class CommonTools{
 	}
 	setMemoButtons(buttons){		
 		var key = buttons[2] + 'localMemos';
+		this.memoKey2Save = key; //メモ用キー
 		
 		var saveMemos = buttons[0];
 		var deleteMemos = buttons[1];
@@ -286,6 +321,7 @@ class CommonTools{
 			this.isPlay = false;
 			this.openCamera();
 			this.mySwiper.slideTo(this.swipeInitialIndex, 300, false);
+			this.updateMemo(this.memoKey2Save);
 			this.disabled = true;
 			this.stopBtn.disabled = false;
 			this.timeStartVideo = Date.now();
@@ -298,8 +334,6 @@ class CommonTools{
         this.stopBtn.onclick = (e) => {
 			this.stopBtn.disabled = true;
 
-			// 结束
-			this.stopRecordCallback = this.stopCallback;
 			// 终止录制器
 			this.mediaRecorder.stop();
 			// 关闭媒体流
@@ -321,6 +355,7 @@ class CommonTools{
 
 		this.startBtn.disabled = false;
 		this.playBtn.disabled = false;
+        this.lastestIndexSwitchInfos4Play = 0;
 							
 		//保存
 		this.saver();
@@ -340,6 +375,7 @@ class CommonTools{
 		this.video.muted = true;　//ビデオ録画の時、muteにする
 		this.video.controls = false;
 		this.pptImgSwitchInfo = [];
+        this.lastestIndexSwitchInfos4Play = 0;
 
 		this.startBtn.disabled = true;
 		this.playBtn.disabled = true;
@@ -371,8 +407,8 @@ class CommonTools{
 				this.mediaRecorder.onstop = (e)=> {
 					this.recorderFile = new Blob(chunks, { 'type': this.mediaRecorder.mimeType });
 					chunks = [];
-					if (null != this.stopRecordCallback) {
-						this.stopRecordCallback();
+					if (null != this.stopCallback) {
+						this.stopCallback();
 					}
 				};
 
@@ -398,9 +434,11 @@ class CommonTools{
 	 * 音声入力をOnにする
 	 **/
 	audioInputOn(){
-		initialAudioInput((isFinal, audioText)=>{
-			this.audioResultCallback(isFinal, audioText);
-		});
+		initialAudioInput(
+			(isFinal, audioText)=>{
+				this.audioResultCallback(isFinal, audioText);
+			}
+		);
 		startAudioInput();
 		console.log("audioInputOn");
 	}
@@ -417,6 +455,9 @@ class CommonTools{
 	saver() {
 		this.videoFileName = 'msr-' + (new Date).toISOString().replace(/:|\./g, '-') + '.mp4';
 		
+		//this.pptImgSwitchInfo.sort((a, b)=>{
+		//	return a.time > b.time ? true : false;
+		//});
 		//切り替え情報の保存
 		var info = {};
 		info.videoTotalTime = this.videoTotalTime;

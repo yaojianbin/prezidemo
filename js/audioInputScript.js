@@ -1,13 +1,13 @@
 var isWorking = false;
 var noteContent = '';
-var callbackFunc;
+var callbackFuncTranscript;
 var recognition;
 var is2StopAudio = false;
 
 /**
  * 音声入力の初期化
  **/
-function initialAudioInput(callback){
+function initialAudioInput(callbackTranscript){
 	try {
 	  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 	  recognition = new SpeechRecognition();
@@ -19,8 +19,8 @@ function initialAudioInput(callback){
 	  recognition.onerror = onError;
 	  recognition.lang = 'ja-JP';
 	  is2StopAudio = false;
-	  
-	  callbackFunc = callback;
+
+	  callbackFuncTranscript = callbackTranscript;
 	}
 	catch(e) {
 	  console.error(e);
@@ -69,17 +69,16 @@ function recognitionOnResult(event) {
 
   if(!mobileRepeatBug) {
     noteContent = transcript;
-   　if(callbackFunc){
+   　if(callbackFuncTranscript){
 	   console.log('transcript is:' + transcript);
-	   callbackFunc(noteContent);
+	   callbackFuncTranscript(noteContent);
 	}
   }*/
     var results = event.results;
 	for (var i = event.resultIndex; i < results.length; i++) {
 		noteContent = results[i][0].transcript;
-	   　if(callbackFunc){
-		   console.log('transcript is:' + noteContent);
-		   callbackFunc(results[i].isFinal, noteContent);
+	   　if(callbackFuncTranscript){
+		   callbackFuncTranscript(results[i].isFinal, noteContent);
 		}
 	}
 }

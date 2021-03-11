@@ -4,21 +4,23 @@
 	text-align: center;
 	width: 90%;;
 	height:40px;
+	z-index: 10;
 	position: absolute;
 	background-color: #12121260;
 	top: 12px;
 	left: 5%;
 	right: 5%;
 	font-family: 'Noto Sans JP', sans-serif;
-	font-size: 25px;
+	font-size: 18px;
 	font-weight: 500;
 	letter-spacing: 0.05em;
-	color: #fff;
+	color: #bbc;
 }
 .audio-input-container {
 	width: 96%;
 	height: 40px;
 	position: absolute;
+	z-index: 20;
 	bottom: 5rem;
 	left: 2%;
 	right: 2%;
@@ -31,7 +33,7 @@
 	bottom: 0rem;
 	padding: 0rem;
 	font-family: 'Noto Sans JP', sans-serif;
-	font-size: 30px;
+	font-size: 25px;
 	font-weight: 500;
 	letter-spacing: 0.05em;
 	//line-height: 163%;
