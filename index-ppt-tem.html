@@ -22,9 +22,9 @@
     </script>
 </head>
 <style>
-    body {
-        /* background-color: #EFEDEF; */
-    }
+    body ::-webkit-scrollbar {
+  display: none; /* Chrome Safari */
+}
 
     .warp {
         width: 100%;
@@ -44,7 +44,7 @@
 
     .swiper-container-ppt {
         width: 900px;
-        height: 500px;
+        height: 430px;
         position: absolute;
         top: 1.5rem;
         left: 0rem;
@@ -271,8 +271,8 @@
     }
 
     .big-circle {
-        width: 400px;
-        height: 400px;
+        width: 380px;
+        height: 380px;
         border-radius: 200px;
         display: grid;
         justify-content: center;
@@ -286,6 +286,10 @@
     .one-page-name {
         font-size: 2rem;
         color: #1379e2;
+        background: #f8f8f8;
+        opacity: 0.3;
+        width: fit-content;
+        margin-top: 5px;
     }
 
     .page-text {
@@ -328,7 +332,7 @@
 
     input[type="radio"] {
         margin-top: -1px;
-        margin-left: 10px;
+        margin: 10px;
         vertical-align: middle;
     }
 
@@ -349,6 +353,7 @@
     height: 50px;
     width: 50px;
     margin-right: 5px;
+    margin-left: 15px;
 }
 </style>
 

@@ -21,7 +21,7 @@ class CommonTools{
 		this.videoFileName;
 		this.audioStartTime = null;
 		this.audioTextDurationTime = 5;
-		//this.localDestPath = "\\Users\\admin\\Downloads\\";
+		// this.localDestPath = "\\Users\\admin\\Downloads\\";
 	    this.localDestPath = "\\Users\\dangy\\Downloads\\";
 		this.isAn=isAn;
 
@@ -143,6 +143,7 @@ class CommonTools{
 	audioResultCallback(isFinal, audioText){
 		if(audioText){
 			this.audioResult.innerHTML = audioText;
+    		this.setTimeoutForClearText();
 		
 		    if(isFinal){
 				var now = Date.now();
@@ -176,7 +177,6 @@ class CommonTools{
 				
 				this.audioStartTime = null;
 				this.audioTextDurationTime = 5;
-    			this.setTimeoutForClearText();
 			}
 			else {
 				if(this.audioStartTime == null){
@@ -233,7 +233,7 @@ class CommonTools{
 					}
 					//最新の切り替え情報のindexの保存
 					//this.lastestIndexSwitchInfos4Play = i;
-					break;
+					//break;
 				}
 			}
 			timeTmp = Math.floor(this.video.currentTime);
